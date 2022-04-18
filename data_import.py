@@ -207,4 +207,5 @@ df_merged = pd.merge(
 df_merged['Date'] = pd.to_datetime(df_merged['Date'])
 df_merged = df_merged.set_index('Date')
 
+
 print(df_merged)
