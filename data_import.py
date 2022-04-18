@@ -181,9 +181,30 @@ print(df_stocks)
 ### NEW WEATHER DATA ###
 
 df_weather = pd.read_csv('NYCweather-data.csv')
-df_weather['DATE'] = pd.to_datetime(df_weather['DATE'])
+df_weather['Date'] = pd.to_datetime(df_weather['DATE'])
 df_weather = df_weather.set_index('DATE')
 df_weather['TOTALPRCP'] = df_weather['PRCP'] + df_weather['SNOW'] + df_weather['SNWD']
 df_weather = df_weather.drop(['TAVG','PRCP','SNOW', 'SNWD','STATION'], axis=1)
 
 print(df_weather)
+
+df_merged = pd.merge(
+    df_stocks,
+    df_weather,
+    how="left",
+    on='Date',
+    left_on=None,
+    right_on=None,
+    left_index=False,
+    right_index=False,
+    sort=True,
+    suffixes=("_x", "_y"),
+    copy=True,
+    indicator=False,
+    validate=None,
+)
+
+df_merged['Date'] = pd.to_datetime(df_merged['Date'])
+df_merged = df_merged.set_index('Date')
+
+print(df_merged)
