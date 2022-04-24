@@ -183,7 +183,7 @@ df_stocks = df_stocks.drop(['High','Low','Open','Close','OpenInt'], axis=1)
 df_weather = pd.read_csv('NYCweather-data.csv')
 df_weather['Date'] = pd.to_datetime(df_weather['DATE'])
 df_weather = df_weather.set_index('DATE')
-df_weather['TOTALPRCP'] = df_weather['PRCP'] + df_weather['SNOW'] + df_weather['SNWD']
+df_weather['TOTALPRCP'] = df_weather['PRCP'].fillna(0) + df_weather['SNOW'].fillna(0)
 df_weather = df_weather.drop(['TAVG','PRCP','SNOW', 'SNWD','STATION'], axis=1)
 bins = [-1, 1, 4, 100]
 df_weather['binned'] = pd.cut(df_weather['TOTALPRCP'], bins, labels = ['Low', 'Med', 'High'])
@@ -269,4 +269,5 @@ etfs_merged = pd.merge(
     indicator=False,
     validate=None,
 )
-  
+print(df_weather.Date['1999-03-10'])
+print(etfs_merged)
