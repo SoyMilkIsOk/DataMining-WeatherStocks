@@ -183,7 +183,7 @@ df_stocks = df_stocks.drop(['High','Low','Open','Close','OpenInt'], axis=1)
 df_weather = pd.read_csv('NYCweather-data.csv')
 df_weather['Date'] = pd.to_datetime(df_weather['DATE'])
 df_weather = df_weather.set_index('DATE')
-df_weather['TOTALPRCP'] = df_weather['PRCP'] + df_weather['SNOW'] + df_weather['SNWD']
+df_weather['TOTALPRCP'] = df_weather['PRCP'].fillna(0) + df_weather['SNOW'].fillna(0)
 df_weather = df_weather.drop(['TAVG','PRCP','SNOW', 'SNWD','STATION'], axis=1)
 bins = [-1, 1, 4, 100]
 df_weather['binned'] = pd.cut(df_weather['TOTALPRCP'], bins, labels = ['Low', 'Med', 'High'])
@@ -206,8 +206,6 @@ df_merged = pd.merge(
     validate=None,
 )
 
-# df_merged['Date'] = pd.to_datetime(df_merged['Date'])
-df_merged = df_merged.set_index('Date')
 #print(df_merged)
 
 ag_data = pd.read_csv("dba.us.txt", sep = ",")
@@ -233,7 +231,6 @@ ag_merged = pd.merge(
     validate=None,
 )
   
-ag_merged = ag_merged.set_index('Date')
 # display DataFrame
 #print(ag_merged)
 
@@ -272,5 +269,5 @@ etfs_merged = pd.merge(
     indicator=False,
     validate=None,
 )
- 
-etfs_merged = etfs_merged.set_index('Date')
+print(df_weather.Date['1999-03-10'])
+print(etfs_merged)
