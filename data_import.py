@@ -206,6 +206,7 @@ df_merged = pd.merge(
     validate=None,
 )
 
+df_merged = df_merged.set_index('Date')
 #print(df_merged)
 
 ag_data = pd.read_csv("dba.us.txt", sep = ",")
@@ -230,7 +231,8 @@ ag_merged = pd.merge(
     indicator=False,
     validate=None,
 )
-  
+
+ag_merged = ag_merged.set_index('Date')
 # display DataFrame
 #print(ag_merged)
 
@@ -269,5 +271,7 @@ etfs_merged = pd.merge(
     indicator=False,
     validate=None,
 )
+
+etfs_merged = etfs_merged.set_index('Date')
 print(df_weather.Date['1999-03-10'])
 print(etfs_merged)
