@@ -175,6 +175,7 @@ df_stocks['Date'] = pd.to_datetime(df_stocks['Date'])
 df_stocks = df_stocks.set_index('Date')
 df_stocks['% Change'] = (df_stocks['Close'] - df_stocks['Open'])/df_stocks['Open']*100 
 df_stocks = df_stocks.drop(['High','Low','Open','Close','OpenInt'], axis=1)
+df_stocks['% change binned'] = pd.cut(df_stocks['% Change'], [-50,0,50], labels = ['positive', 'negative'])
 
 #print(df_stocks)
 
@@ -187,6 +188,7 @@ df_weather['TOTALPRCP'] = df_weather['PRCP'].fillna(0) + df_weather['SNOW'].fill
 df_weather = df_weather.drop(['TAVG','PRCP','SNOW', 'SNWD','STATION'], axis=1)
 bins = [-1, 1, 4, 100]
 df_weather['binned'] = pd.cut(df_weather['TOTALPRCP'], bins, labels = ['Low', 'Med', 'High'])
+
 
 #print(df_weather)
 
@@ -214,6 +216,7 @@ ag_data['Date'] = pd.to_datetime(ag_data['Date'])
 ag_data = ag_data.set_index('Date')
 ag_data['% Change'] = (ag_data['Close'] - ag_data['Open'])/ag_data['Open']*100 
 ag_data = ag_data.drop(['High','Low','Open','Close','OpenInt'], axis=1)
+ag_data['% change binned'] = pd.cut(ag_data['% Change'], [-50,0,50], labels = ['positive', 'negative'])
 
 
 ag_merged = pd.merge(
@@ -249,6 +252,7 @@ for stock in names:
 etfs_avg = pd.concat((stocks['spy.us.txt'], stocks['ivv.us.txt'], stocks['vti.us.txt'], stocks['voo.us.txt']\
                  , stocks['qqq.us.txt'], stocks['vea.us.txt'], stocks['vtv.us.txt'], stocks['iefa.us.txt'], stocks['agg.us.txt'], stocks['bnd.us.txt']))
 etfs_avg = etfs_avg.groupby(etfs_avg.index).mean()
+etfs_avg['% change binned'] = pd.cut(etfs_avg['% Change'], [-50,0,50], labels = ['positive', 'negative'])
 
 #etfs_avg['Date'] = pd.to_datetime(etfs_avg['Date'])
 #etfs_avg = etfs_avg.set_index('Date')
